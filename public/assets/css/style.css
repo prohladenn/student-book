@@ -1,0 +1,92 @@
+* {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  -webkit-text-decoration: dotted;
+  text-decoration: dotted;
+  color: #000;
+  border-bottom: 0.5px dotted;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  height: 15vh;
+  background-color: #ccc;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-size: 2em;
+}
+
+.main_block {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+.table_container {
+  width: 75%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.table_container table {
+  font-size: 1.2em;
+  padding: 20px;
+}
+
+.table_container table th {
+  border: 1px solid;
+  padding: 10px 30px;
+}
+
+.table_container table td {
+  border: 1px solid;
+  padding: 10px 30px;
+}
+
+.sidebar {
+  background-color: #ccc;
+  height: 85vh;
+  width: 25%;
+}
+
+.sidebar > div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: 1.3em;
+  padding-top: 20px;
+}
+
+.sidebar ul > a ~ li {
+  display: none;
+}
