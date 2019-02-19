@@ -10,3 +10,5 @@ class CStudent {
 
     }
 }
+
+//TODO: Обдумать методы класса Student

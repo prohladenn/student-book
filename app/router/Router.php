@@ -17,8 +17,14 @@ class Router {
         if (!is_null($this->student_id)) {
             echo $this->student_id;
         } else {
-            $read_students = new \App\Models\CStudents;
-            $read_students->readStudents($pdo);
+            $read_students = new \App\Models\CEssense;
+            $read_students->read();
+
+            //Никуда не годится! Необходимо перенаправить на контроллер
         }
     }
 }
+
+//TODO: Роутер не красивый. Нужно реализовать логику передачи сигнала от роутера к ОПРЕДЕЛЕННОМУ контроллеру
+
+//TODO: Обдумать логику action при нажатии на клавишу. Что будет происходить при создании/чтении/обновлении/удалении
