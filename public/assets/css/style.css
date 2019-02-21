@@ -7,11 +7,13 @@ ul {
   list-style: none;
 }
 
-a {
-  -webkit-text-decoration: dotted;
-  text-decoration: dotted;
+p {
   color: #000;
   border-bottom: 0.5px dotted;
+}
+
+p:hover {
+  cursor: pointer;
 }
 
 body {
@@ -87,6 +89,6 @@ header {
   padding-top: 20px;
 }
 
-.sidebar ul > a ~ li {
+.sidebar ul > p ~ li {
   display: none;
 }

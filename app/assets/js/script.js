@@ -14,7 +14,8 @@ function clickOnSidebar(el) {
 $(function() {
 
     //Сайдбар
-    clickOnSidebar('.sidebar ul > a');
+    // $.post();
+    clickOnSidebar('.sidebar ul > p');
 
     //Работа с таблицей
     $(".table__add_student").click(function() {
@@ -61,15 +62,19 @@ $(function() {
 
         $(this).closest('a').text(student_name);
 
-        var pst = {'student':[]};
+        var pst = {'student':[], 'router': []};
         pst.student.push({
             'student_name': student_name,
             'group_name': group_name
         });
+        pst.router.push({
+            'controller': 'SidebarController',
+            'action': 'run'
+        });
         console.table(pst);
 
-        $.post("./php/models/CStudent.php", pst, function(data) {
-            alert(data);
+        $.post("../app/router/Router.php", pst, function(data) {
+            console.log(data);
         });
     });
 });

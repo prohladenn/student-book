@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class EssenseModel {
+class FacultyModel {
     public function create($pdo) {
         $result = $pdo->query("INSERT INTO {$_POST['essense']} VALUES {$_POST['values']}");
     }
@@ -16,5 +16,3 @@ class EssenseModel {
         $result = $pdo->query("DROP TABLE ");
     }
 }
-
-//TODO: Реализовать функции для всех сущностей, чтобы в дальнейшем использовать их в классах уровня ниже

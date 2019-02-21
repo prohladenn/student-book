@@ -16,7 +16,8 @@
         <div class="sidebar">
             <div>
                 <ul>
-                    <a href="#" class="faculty">Факультет 1</a>
+                    <?php $tree = new App\Models\StudentsTreeModel; ?>
+                    <!-- <a href="#" class="faculty">Факультет 1</a>
                     <li>
                         <ul>
                             <a href="#" class="course">Курс I</a>
@@ -32,7 +33,7 @@
                                 </ul>
                             </li>
                         </ul>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </div>

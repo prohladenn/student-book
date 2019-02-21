@@ -1,12 +1,10 @@
-<?php
+<?php 
 
 namespace App\Models;
 
-class StudentModel {
-    // private $pdo = new App\DB\DB;
-
+class MarkTableModel {
     public function create($pdo) {
-        $result = $this->pdo->query("INSERT INTO {$_POST['essense']} VALUES {$_POST['values']}");
+        $result = $pdo->query("INSERT INTO {$_POST['essense']} VALUES {$_POST['values']}");
     }
     public function read($pdo) {
         $result = $pdo->query("SELECT * FROM faculty");
@@ -17,13 +15,6 @@ class StudentModel {
     public function delete($pdo) {
         $result = $pdo->query("DROP TABLE ");
     }
-
-    public function getMarkTable() {
-
-    }
-    public function setMarkTable() {
-
-    }
 }
 
-//TODO: Обдумать методы класса Student
+//TODO: Реализовать функции для всех сущностей, чтобы в дальнейшем использовать их в классах уровня ниже

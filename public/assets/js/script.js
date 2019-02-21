@@ -14,8 +14,8 @@ function clickOnSidebar(el) {
 $(function() {
 
     //Сайдбар
-    $.post();
-    clickOnSidebar('.sidebar ul > a');
+    // $.post();
+    clickOnSidebar('.sidebar ul > p');
 
     //Работа с таблицей
     $(".table__add_student").click(function() {

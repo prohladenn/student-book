@@ -56,7 +56,7 @@ gulp.task('assets', function(){
 gulp.task('watch', function() {
     browserSync.init({
         server: {
-        baseDir: './public/assets'
+            baseDir: './public'
         },
         notify: false
     });
