@@ -5,7 +5,8 @@
       "App\\": "app/",
       "App\\Models\\": "app/models/",
       "App\\Controllers\\": "app/controllers/",
-      "App\\Router\\": "app/router/"
+      "App\\Router\\": "app/router/",
+      "App\\DB\\": "app/db/"
     }
   }
 }

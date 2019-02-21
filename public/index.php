@@ -1,9 +1,8 @@
 <?php
 
-require_once "../app/config/config.php";
+require_once __DIR__ . "/../vendor/autoload.php";
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-
-include "../app/views/VMain.php";
+require_once "../app/views/VMain.php";

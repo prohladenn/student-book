@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class CEssense {
+class EssenseModel {
     public function create($pdo) {
         $result = $pdo->query("INSERT INTO {$_POST['essense']} VALUES {$_POST['values']}");
     }

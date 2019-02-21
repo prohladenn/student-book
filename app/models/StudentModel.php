@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class CStudent {
+class StudentModel {
     public function getMarkTable() {
 
     }

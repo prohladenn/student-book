@@ -68,7 +68,7 @@ $(function() {
             'group_name': group_name
         });
         pst.router.push({
-            'controller': 'MainController',
+            'controller': 'SidebarController',
             'action': 'run'
         });
         console.table(pst);
