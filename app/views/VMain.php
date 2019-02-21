@@ -14,7 +14,7 @@
 
    <div class="main_block">
         <div class="sidebar">
-            <!-- <div>
+            <div>
                 <ul>
                     <a href="#" class="faculty">Факультет 1</a>
                     <li>
@@ -34,7 +34,7 @@
                         </ul>
                     </li>
                 </ul>
-            </div> -->
+            </div>
         </div>
         <div class="table_container">
             <table class="table">

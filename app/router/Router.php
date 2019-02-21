@@ -3,27 +3,27 @@
 namespace App\Router;
 
 class Router {
-
-    private $student_id;
+    private $post;
 
     public function __construct() {
-        $id = preg_replace("~[^0-9]~", '', $_SERVER['REQUEST_URI']);
-        if(!empty($id)) {
-            $this->student_id = $id;
+        $this->post = $_POST['router'][0];
+
+        if ($this->post) {
+            $controllerName = "App\Controllers\\" . $this->post['controller'];
+            $controllerFileName = $this->post['controller'] . ".php";
+            $actionName = $this->post['action'];
+            $controllerFile = __DIR__ . "/../controllers/" . $controllerFileName;
         }
+        if (file_exists($controllerFile)) {
+            require_once $controllerFile;
+        }
+        $controllerObject = new $controllerName;
+        $result = $controllerObject->$actionName();
     }
 
-    public function run() {
-        if (!is_null($this->student_id)) {
-            echo $this->student_id;
-        } else {
-            $read_students = new \App\Models\CEssense;
-            $read_students->read();
-
-            //Никуда не годится! Необходимо перенаправить на контроллер
-        }
-    }
 }
+
+$newRouter =  new Router;
 
 //TODO: Роутер не красивый. Нужно реализовать логику передачи сигнала от роутера к ОПРЕДЕЛЕННОМУ контроллеру
 
