@@ -7,15 +7,6 @@ ul {
   list-style: none;
 }
 
-p {
-  color: #000;
-  border-bottom: 0.5px dotted;
-}
-
-p:hover {
-  cursor: pointer;
-}
-
 body {
   font-family: sans-serif;
   margin: 0;
@@ -85,8 +76,13 @@ header {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  font-size: 1.3em;
+  font-size: 1.2em;
   padding-top: 20px;
+}
+
+.sidebar ul,
+.sidebar li {
+  cursor: pointer;
 }
 
 .sidebar ul > p ~ li {

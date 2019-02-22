@@ -14,7 +14,8 @@ class DB extends PDO {
             parent::__construct(
                 "mysql:host={$this->db_host};dbname={$this->db_name}",
                 $this->db_user,
-                $this->db_password
+                $this->db_password,
+                [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
             );
         } catch (PDOException $e) {
             echo $e->getMessage();

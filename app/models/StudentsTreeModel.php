@@ -3,12 +3,13 @@
 namespace App\Models;
 
 class StudentsTreeModel {
+    private $pdo;
     public function __construct() {
         $obj;
         $result;
-        $pdo = new \App\DB\DB;
+        $this->pdo = new \App\DB\DB;
 
-        $result = $pdo->query(
+        $result = $this->pdo->query(
             "SELECT faculty.name as faculty, 
                 course.name as course, 
                 `group`.name as `group`, 
@@ -30,7 +31,7 @@ class StudentsTreeModel {
                 foreach ($groups as $group => $students) {
                     echo "<p class='group'>" . $group . "</p><li><ul>";
                     foreach ($students as $student) {
-                        echo "<p class='student'>" . $student . "</p><li></li>";
+                        echo "<li class='student'>" . $student . "</li>";
                     }
                     echo "</ul></li>";
                 }

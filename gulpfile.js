@@ -6,7 +6,7 @@ let gulp         = require('gulp'),
     concatCss    = require('gulp-concat-css'),
     browserSync  = require('browser-sync');
 
-gulp.task('default', ['images', 'html', 'css', 'assets', 'js', 'watch']);
+gulp.task('default', ['images', 'html', 'css', 'other', 'js', 'watch']);
 
 gulp.task('html', function(){
     console.log("html files have been updated");
@@ -38,28 +38,29 @@ gulp.task('css', function (){
         .pipe(gulp.dest('./public/assets/css'));
 });
 
-gulp.task('assets', function(){
-    console.log("assets has been updated");
+gulp.task('other', function(){
+    console.log("other has been updated");
     return gulp.src([
-        './app/assets/**/*.*', 
-        '!./app/assets/**/*.js', 
-        '!./app/assets/**/*.css', 
-        '!./app/assets/**/*.png',
-        '!./app/assets/**/*.html',
-        '!./app/assets/**/*.jpg',
-        '!./app/assets/**/*.jpeg',
-        '!./app/assets/**/*.svg'
+        './app/assets/other/*.*', 
+        '!./app/assets/other/*.js', 
+        '!./app/assets/other/*.css', 
+        '!./app/assets/other/*.png',
+        '!./app/assets/other/*.html',
+        '!./app/assets/other/*.jpg',
+        '!./app/assets/other/*.jpeg',
+        '!./app/assets/other/*.svg'
         ])
         .pipe(gulp.dest('./public/assets/other'));
 });
 
 gulp.task('watch', function() {
     browserSync.init({
-        server: {
-            baseDir: './public'
-        },
+        proxy: "localhost/student-book/public/index.php",
+        // server: {
+        //     baseDir: './public'
+        // },
         notify: false
     });
-    gulp.watch('./app/**/*.*', ['images', 'html', 'css', 'assets', 'js'])
+    gulp.watch('./app/**/*.*', ['images', 'html', 'css', 'other', 'js'])
         .on('change', browserSync.reload);
 });

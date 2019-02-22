@@ -9,7 +9,7 @@ class Router {
         $this->post = $_POST['router'][0];
 
         if ($this->post) {
-            $controllerName = "App\Controllers\\" . $this->post['controller'];
+            $controllerName = "\App\Controllers\\" . $this->post['controller'];
             $controllerFileName = $this->post['controller'] . ".php";
             $actionName = $this->post['action'];
             $controllerFile = __DIR__ . "/../controllers/" . $controllerFileName;

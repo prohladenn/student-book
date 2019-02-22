@@ -12,10 +12,43 @@ function clickOnSidebar(el) {
 // }
 
 $(function() {
+        // Работа с сайдбаром
+        clickOnSidebar('.sidebar ul > p');
 
-    //Сайдбар
-    // $.post();
-    clickOnSidebar('.sidebar ul > p');
+        $('<button>', {
+            text: 'Добавить студента',
+            class: 'sidebar__add_student'
+        }).appendTo($('.student').parent());
+    
+        $(document).on('click', '.sidebar__add_student', function() {
+            $(this).before('<li class="student"><input /></li>');
+        });
+        $(document).on('focusout', '.sidebar .student input', function() {
+            var student_name = $(this).val();
+            var group_name = $(this).parents().siblings('.group').first().text();
+            var course_name = $(this).parents().siblings('.course').first().text();
+            var faculty_name = $(this).parents().siblings('.faculty').first().text();
+    
+            $(this).closest('li').text(student_name);
+    
+            var pst = {'student':[], 'router': []};
+            pst.student.push({
+                'student_name': student_name,
+                'group_name': group_name,
+                'course_name': course_name,
+                'faculty_name': faculty_name
+            });
+            pst.router.push({
+                'controller': 'SidebarController',
+                'action': 'addStudent'
+            });
+            console.table(pst);
+    
+            $.post("../app/router/Router.php", pst, function(data) {
+                console.log(data);
+            });
+        });
+
 
     //Работа с таблицей
     $(".table__add_student").click(function() {
@@ -52,29 +85,4 @@ $(function() {
         });
     });
 
-    // Работа с сайдбаром
-    $(document).on('click', '.sidebar__add_student', function() {
-        $(this).parent().before('<li><a href="#" class="student"><input /></a></li>');
-    });
-    $(document).on('focusout', '.sidebar .student input', function() {
-        var student_name = $(this).val();
-        var group_name = $(this).parents('.group_ul').children(':first').text();
-
-        $(this).closest('a').text(student_name);
-
-        var pst = {'student':[], 'router': []};
-        pst.student.push({
-            'student_name': student_name,
-            'group_name': group_name
-        });
-        pst.router.push({
-            'controller': 'SidebarController',
-            'action': 'run'
-        });
-        console.table(pst);
-
-        $.post("../app/router/Router.php", pst, function(data) {
-            console.log(data);
-        });
-    });
 });

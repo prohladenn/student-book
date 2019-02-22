@@ -17,23 +17,6 @@
             <div>
                 <ul>
                     <?php $tree = new App\Models\StudentsTreeModel; ?>
-                    <!-- <a href="#" class="faculty">Факультет 1</a>
-                    <li>
-                        <ul>
-                            <a href="#" class="course">Курс I</a>
-                            <li>
-                                <ul class="group_ul">
-                                    <a href="#" class="group">ЭМ-43</a>
-                                    <li>
-                                        <ul>
-                                            <li><a href="#" class="student">Вася Пупкин</a></li>
-                                            <li><a href="#" class="sidebar__add_student">+</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li> -->
                 </ul>
             </div>
         </div>
