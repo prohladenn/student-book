@@ -77,14 +77,20 @@ header {
   display: -ms-flexbox;
   display: flex;
   font-size: 1.2em;
-  padding-top: 20px;
+  padding: 20px 0 0 40px;
 }
 
 .sidebar ul,
 .sidebar li {
   cursor: pointer;
+  padding: 0;
 }
 
-.sidebar ul > p ~ li {
+.sidebar li > ul {
   display: none;
+}
+
+.sidebar p ~ ul > li,
+.sidebar button {
+  margin-left: 20px;
 }

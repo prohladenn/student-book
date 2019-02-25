@@ -16,7 +16,7 @@
         <div class="sidebar">
             <div>
                 <ul>
-                    <?php $tree = new App\Models\StudentsTreeModel; ?>
+
                 </ul>
             </div>
         </div>
@@ -27,15 +27,15 @@
                     <th>Оценка</th>
                     <th>Преподаватель</th>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <td>ТОЭ</td>
                     <td>5</td>
                     <td>Аксютин</td>
-                </tr>
+                </tr> -->
             </table>
             <div>
-                <button class="table__add_student">Добавить студента</button>
-                <button class="table__save_student">Сохранить информацию</button>
+                <button class="table__add_student">Добавить</button>
+                <button class="table__save_student">Сохранить</button>
             </div>
         </div>
    </div>
@@ -44,6 +44,3 @@
     <script src="./assets/js/script.js"></script>
 </body>
 </html>
-
-
-<!-- TODO: Разбить весь файл на составные части для более удобной работы с ними -->

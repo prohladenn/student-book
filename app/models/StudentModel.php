@@ -1,43 +1,27 @@
 <?php
 
 namespace App\Models;
+
 require_once __DIR__ . "/../db/DB.php";
+require_once __DIR__ . "/FormModel.php";
 
-class StudentModel {
+class StudentModel extends FormModel {
     private $pdo;
-    private $group_id;
-    private $course_id;
-    private $faculty_id;
+    private $id;
 
-    // Все таки разобрался
-    public function __construct() {
+    public function getMarks() {
         $this->pdo = new \App\DB\DB;
-        $this->group_id = $this->pdo->
-            prepare("SELECT id FROM `group` WHERE name = :gr_name;");
-        $this->group_id->bindValue('gr_name', $_POST['student'][0]['group_name']);
-        $this->group_id->execute();
-        $this->group_id = $this->group_id->fetchAll();
 
-        echo $this->group_id[0]['id'];
-    }
+        $this->id = $_POST['student'][0]['id'];
 
-    public function create() {
-        $result = $this->pdo->query("SELECT * FROM `student`;")->fetchAll();
-    }
-    public function read($pdo) {
-        $result = $pdo->query("SELECT * FROM faculty");
-    }
-    public function update($pdo) {
-        $result = $pdo->query("");
-    }
-    public function delete($pdo) {
-        $result = $pdo->query("DROP TABLE ");
-    }
+        $result = $this->pdo->prepare("SELECT * FROM `mark-table` WHERE student_id = :id;");
+        $result->bindValue('id', $this->id);
+        $result->execute();
+        $result = $result->fetchAll();
 
-    public function getMarkTable() {
-
+        echo json_encode($result);
     }
-    public function setMarkTable() {
+    public function setMarks() {
 
     }
 }

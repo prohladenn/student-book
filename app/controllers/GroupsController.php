@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-class MainController {
+class GroupsController {
     public function run() {
         echo 'IT WORKS?!';
     }

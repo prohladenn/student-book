@@ -5,15 +5,15 @@ namespace App\Models;
 class StudentsTreeModel {
     private $pdo;
     public function __construct() {
-        $obj;
+        $names;
         $result;
         $this->pdo = new \App\DB\DB;
 
         $result = $this->pdo->query(
-            "SELECT faculty.name as faculty, 
-                course.name as course, 
-                `group`.name as `group`, 
-                student.name as student
+            "SELECT faculty.id, faculty.name,
+                course.id, course.name,
+                `group`.id, `group`.name,
+                student.id, student.name
             FROM faculty
             LEFT JOIN course ON faculty.id = course.faculty_id
             LEFT JOIN `group` ON course.id = `group`.course_id
@@ -21,23 +21,9 @@ class StudentsTreeModel {
         )->fetchAll();
 
         foreach ($result as $row) {
-            $obj[$row[0]][$row[1]][$row[2]][] = $row[3];
+            $names[$row[1] . ',' . $row[0]][$row[3] . ',' . $row[2]][$row[5] . ',' . $row[4]][] = $row[7] . ',' . $row[6];
         }
 
-        foreach ($obj as $faculty => $courses) {
-            echo "<p class='faculty'>" . $faculty . "</p><li><ul>";
-            foreach ($courses as $course => $groups) {
-                echo "<p class='course'>" . $course . "</p><li><ul>";
-                foreach ($groups as $group => $students) {
-                    echo "<p class='group'>" . $group . "</p><li><ul>";
-                    foreach ($students as $student) {
-                        echo "<li class='student'>" . $student . "</li>";
-                    }
-                    echo "</ul></li>";
-                }
-                echo "</ul></li>";
-            }
-            echo "</ul></li>";
-        }
+        echo json_encode($names);
     }
 }

@@ -51,14 +51,18 @@ header {
   & > div {
       display: flex;
       font-size: 1.2em;
-      padding-top: 20px;
+      padding: 20px 0 0 40px;
   }
 
   ul, li {
     cursor: pointer;
+    padding: 0;
   }
 
-  ul > p ~ li {
+  li > ul {
       display: none;
+  }
+  p ~ ul > li, button {
+    margin-left: 20px;
   }
 }
