@@ -25,5 +25,3 @@ class StudentModel extends FormModel {
 
     }
 }
-
-//TODO: Обдумать методы класса Student

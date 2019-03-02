@@ -21,9 +21,8 @@ class StudentsController {
     }
 
     public function updateStudent() {
-
+        $student = new \App\Models\StudentModel;
+        $student->update('student');
     }
 
 }
-
-//TODO: МОЖНО ВЫЗЫВАТЬ ЗДЕСЬ МЕТОД КЛАССА StudentTreeModel. ПОДУМАТЬ ОБ ЭТОМ

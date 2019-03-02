@@ -22,8 +22,15 @@ Class FormModel {
         $result->execute();
     }
 
-    public function update() {
+    public function update($form) {
+        $name = $_POST['form'][0]['name'];
+        $id = $_POST['form'][0]['id'];
 
+        $result = $this->pdo->
+            prepare("UPDATE `{$form}` SET name = :name WHERE id = :id;");
+        $result->bindValue('id', $id);
+        $result->bindValue('name', $name);
+        $result->execute();
     }
 
     public function delete() {

@@ -31,16 +31,16 @@ header {
   flex-direction: column;
 
   table {
-      font-size: 1.2em;
-      padding: 20px;
-      th {
-          border: 1px solid;
-          padding: 10px 30px;
-      }
-      td {
-          border: 1px solid;
-          padding: 10px 30px;
-      }
+    font-size: 1.2em;
+    padding: 20px;
+    th {
+      border: 1px solid;
+      padding: 10px 30px;
+    }
+    td {
+      border: 1px solid;
+      padding: 10px 30px;
+    }
   }
 }
 .sidebar {
@@ -49,9 +49,19 @@ header {
   width: 25%;
 
   & > div {
-      display: flex;
-      font-size: 1.2em;
-      padding: 20px 0 0 40px;
+    display: flex;
+    font-size: 1.2em;
+    padding: 20px 0 0 40px;
+  }
+
+  .student {
+    margin: 10px 0 10px 20px;
+
+    .fa-pen {
+      display: none;
+      padding-left: 10px;
+      color: #fff;
+    }
   }
 
   ul, li {
@@ -60,7 +70,7 @@ header {
   }
 
   li > ul {
-      display: none;
+    display: none;
   }
   p ~ ul > li, button {
     margin-left: 20px;

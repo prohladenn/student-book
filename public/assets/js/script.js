@@ -26,7 +26,8 @@ function getStudentsTree(arr) {
 
                 for (student in arr[faculty][course][group]) {
                     $('<li>', {
-                        html: '<p>' + arr[faculty][course][group][student].split(',')[0] + '</p>', class: 'student', 
+                        html: '<span>' + arr[faculty][course][group][student].split(',')[0] + '</span>' + '<i class="fas fa-pen"></i>', 
+                        class: 'student', 
                         id: arr[faculty][course][group][student].split(',')[1]
                     }).appendTo(group_ul);
                 }
@@ -44,6 +45,8 @@ $(function() {
         function(data) {
             var arr = JSON.parse(data);
 
+            console.table(arr);
+
             //Вывод StudentsTree
             getStudentsTree(arr);
 
@@ -60,29 +63,29 @@ $(function() {
             //Create
             $(document).on('click', '.sidebar__add_student', function() {
                 $(this).before('<li class="student"><input /></li>');
-            });
 
-            $(document).on('focusout', '.sidebar .student input', function() {
-                var name = $(this).val();
-                var id = $(this).parents('.group').attr('id');
-            
-                $(this).closest('li').text(name);
-            
-                var pst = {'form':[], 'router':[]};
-                pst.form.push({
-                    'name': name,
-                    'id': id
-                });
-            
-                pst.router.push({
-                    'controller': 'StudentsController',
-                    'action': 'createStudent'
-                });
-
-                console.table(pst);
-
-                $.post("../app/router/Router.php", pst, function(data) {
-                    // console.log(data);
+                $(document).on('focusout', '.sidebar .student input', function() {
+                    var name = $(this).val();
+                    var id = $(this).parents('.group').attr('id');
+                
+                    $(this).closest('li').text(name);
+                
+                    var pst = {'form':[], 'router':[]};
+                    pst.form.push({
+                        'name': name,
+                        'id': id
+                    });
+                
+                    pst.router.push({
+                        'controller': 'StudentsController',
+                        'action': 'createStudent'
+                    });
+    
+                    console.table(pst);
+    
+                    $.post("../app/router/Router.php", pst, function(data) {
+                        // console.log(data);
+                    });
                 });
             });
 
@@ -113,8 +116,43 @@ $(function() {
             });
 
             //Udpate
-            //Необходимо продумать действие во фронтенде
+            $('.student').hover(function() {
+                $(this).children('.fa-pen').css('display', 'inline');
+            }, function() {
+                $(this).children('.fa-pen').css('display', 'none');
+            })
 
+            $(document).on('click', '.fa-pen', function() {
+                var text = $(this).siblings('span').text();
+                var id = $(this).parent().attr('id');
+                $(this).parent().html('<li class="student" id="' + id +'"><input value="' + text + '" /></li>');
+
+                $(document).on('focusout', '.sidebar .student input', function() {
+                    var name = $(this).val();
+                    var id = $(this).parent().attr('id');
+                
+                    $(this).closest('li').text(name);
+                
+                    var pst = {'form':[], 'router':[]};
+                    pst.form.push({
+                        'name': name,
+                        'id': id
+                    });
+                
+                    pst.router.push({
+                        'controller': 'StudentsController',
+                        'action': 'updateStudent'
+                    });
+    
+                    console.table(pst);
+    
+                    $.post("../app/router/Router.php", pst, function(data) {
+                        // console.log(data);
+                    });
+                });
+            });
+
+            //Delete
 
             //Работа с таблицей
             $(".table__add_student").click(function() {
@@ -155,8 +193,8 @@ $(function() {
                     console.log(data);
                     console.log('success');
                 });
-            });
-                
-            });
+            });         
+            
+        });
 
 });
