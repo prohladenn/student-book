@@ -6,10 +6,13 @@ function clickOnSidebar(el) {
 };
 
 function getStudentsTree(arr) {
+    var ul = $('<ul>').appendTo('.sidebar');
+    ul.wrap('<div></div>');
+
     for (faculty in arr) {
         var faculty_name = $('<li>', {
             html: '<p>' + faculty.split(',')[0] + '</p>', class: 'faculty', id: faculty.split(',')[1]
-        }).appendTo('.sidebar > div > ul');
+        }).appendTo(ul);
         var faculty_ul = $('<ul>').appendTo(faculty_name);
 
         for (course in arr[faculty]) {
@@ -26,7 +29,7 @@ function getStudentsTree(arr) {
 
                 for (student in arr[faculty][course][group]) {
                     $('<li>', {
-                        html: '<span>' + arr[faculty][course][group][student].split(',')[0] + '</span>' + '<i class="fas fa-pen"></i>', 
+                        html: '<span>' + arr[faculty][course][group][student].split(',')[0] + '</span>' + '<i class="fas fa-pen"></i>' + '<i class="fas fa-trash-alt"></i>', 
                         class: 'student', 
                         id: arr[faculty][course][group][student].split(',')[1]
                     }).appendTo(group_ul);
@@ -45,8 +48,6 @@ $(function() {
         function(data) {
             var arr = JSON.parse(data);
 
-            console.table(arr);
-
             //Вывод StudentsTree
             getStudentsTree(arr);
 
@@ -58,9 +59,16 @@ $(function() {
                 text: 'Добавить студента',
                 class: 'sidebar__add_student'
             }).appendTo($('.student').parent());
-            
 
-            //Create
+            //Иконки
+            $('.student').hover(function() {
+                $(this).children('.fas').css('display', 'inline');
+            }, function() {
+                $(this).children('.fas').css('display', 'none');
+            })
+
+
+            //Create form
             $(document).on('click', '.sidebar__add_student', function() {
                 $(this).before('<li class="student"><input /></li>');
 
@@ -89,39 +97,7 @@ $(function() {
                 });
             });
 
-            //Read
-            $(document).on('click', '.student', function() {
-                if (!($(this).text())) return;
-
-                var id = $(this).attr('id');
-                        
-                var pst = {'student':[], 'router':[]};
-                pst.student.push({
-                    'id': id,
-                });
-            
-                pst.router.push({
-                    'controller': 'StudentsController',
-                    'action': 'readStudent'
-                });
-
-                $.post("../app/router/Router.php", pst, function(data) {
-                    var arr = JSON.parse(data);
-                    console.table(arr);
-
-                    arr.forEach(function(el) {
-                        $('.table').append("<tr><td>" + el['subject'] + "</td><td>" + el['mark'] + "</td><td>" + el['professor'] + "</td></tr>");
-                    })
-                });
-            });
-
-            //Udpate
-            $('.student').hover(function() {
-                $(this).children('.fa-pen').css('display', 'inline');
-            }, function() {
-                $(this).children('.fa-pen').css('display', 'none');
-            })
-
+            //Udpate form
             $(document).on('click', '.fa-pen', function() {
                 var text = $(this).siblings('span').text();
                 var id = $(this).parent().attr('id');
@@ -152,47 +128,146 @@ $(function() {
                 });
             });
 
-            //Delete
+            //Delete form
+            $(document).on('click', '.fa-trash-alt', function() {
+                var id = $(this).parent().attr('id');
 
-            //Работа с таблицей
-            $(".table__add_student").click(function() {
-                $('.table').append("<tr><td></td><td></td><td></td></tr>");
+                $(this).parent().remove();
+
+                var pst = {'form':[], 'router':[]};
+                pst.form.push({
+                    'id': id,
+                });
+            
+                pst.router.push({
+                    'controller': 'StudentsController',
+                    'action': 'deleteStudent'
+                });
+
+                $.post("../app/router/Router.php", pst, function(data) {
+                    //console.table(arr);
+                });
             });
 
-            $(document).on('click', '.table td', function(){
+            //Get mark table
+            $(document).on('click', '.student > span', function() {
+                if ($('.table__new_row').length) {
+                    if (confirm('Удалить все изменения?')) {
+                        $('.table tr ~ tr').remove();
+                    } else {
+                        return;
+                    }
+                }
+
+                var id = $(this).parent().attr('id');
+                $('.table').attr('id', id);
+                        
+                var pst = {'student':[], 'router':[]};
+                pst.student.push({
+                    'id': id,
+                });
+            
+                pst.router.push({
+                    'controller': 'StudentsController',
+                    'action': 'getMarkTable'
+                });
+
+                $.post("../app/router/Router.php", pst, function(data) {
+                    var arr = JSON.parse(data);
+
+                    arr.forEach(function(el) {
+                        $('.table').append("<tr class='table__old_row' id=" + el['id'] +"><td>" + el['subject'] + "</td><td>" + el['mark'] + "</td><td>" + el['professor'] + "</td></tr>");
+                    })
+                });
+            });
+
+            //Set && Update mark table
+            $(document).on('click', '.table__add_student', function() {
+                if (!$('.table').attr('id')) {
+                    alert('Выберите студента');
+                    return;
+                }
+                $('.table').append("<tr class='table__new_row'><td></td><td></td><td></td></tr>");
+            });
+
+            $(document).on('click', 'tr.table__new_row td', function(){
                 if($(this).find("input").length == 0) {
                     var val = $(this).text();
                     $(this).html("<input value='" + val + "'/>");
                 }
             });
+            $(document).on('click', 'tr.table__old_row td', function(){
+                if($(this).find("input").length == 0) {
+                    var val = $(this).text();
+                    $(this).html("<input value='" + val + "'/>");
+                    $(this).parent().attr('class', 'table__update_row');
+                }
+            });
 
-            $(document).on('focusout', '.table td input', function() {
+            $(document).on('focusout', '.table tr td input', function() {
                 var val = $(this).val();
                 $(this).closest('td').text(val);
             });
 
-            $(document).on('click', '.table__save_student', function(e) {
-                var pst = {'marks_table':[]};
+            $(document).on('click', '.table__save_student', function() {
+                if (!$('.table__new_row').length && !$('.table__update_row').length) {
+                    alert('Изменения не найдены');
+                    return;
+                };
 
-                $('.table tr').each(function (el) {
-                    console.log(el);
-                    var row = $(el).find('td');
-                    console.log($(row[0]).text());
-                    if(row.length > 0) {
-                        pst.marks_table.push({
-                            'subject': $(row[0]).text(),
-                            'mark': $(row[1]).text(),
-                            'professor': $(row[2]).text(),
-                        });
-                    }
-                });
+                if ($('.table__new_row').length) {
+                    var pstSet = {'mark_table':[], 'student':[], 'router':[]};
 
-                console.log(pst);
+                    pstSet.student.push({
+                        'id': $('.table').attr('id')
+                    });
 
-                $.post(document.location.href, pst, function(data) {
-                    console.log(data);
-                    console.log('success');
-                });
+                    $('.table__new_row').each(function() {
+                        var row = $(this).find('td');
+                        if(row.length > 0) {
+                            pstSet.mark_table.push({
+                                'subject': $(row[0]).text(),
+                                'mark': $(row[1]).text(),
+                                'professor': $(row[2]).text()
+                            });
+                        }
+                    });
+
+                    pstSet.router.push({
+                        'controller': 'StudentsController',
+                        'action': 'setMarkTable'
+                    });
+
+                    $.post("../app/router/Router.php", pstSet, function(data) {
+                        // console.log(data);
+                    });
+                } 
+                if ($('.table__update_row').length) {
+                    var pstUpdate = {'mark_table':[], 'router':[]};
+
+                    $('.table__update_row').each(function() {
+                        var row = $(this).find('td');
+                        var id = $(this).attr('id');
+                        if(row.length > 0) {
+                            pstUpdate.mark_table.push({
+                                'id': id,
+                                'subject': $(row[0]).text(),
+                                'mark': $(row[1]).text(),
+                                'professor': $(row[2]).text()
+                            });
+                        }
+                    });
+
+                    pstUpdate.router.push({
+                        'controller': 'StudentsController',
+                        'action': 'updateMarkTable'
+                    });
+
+                    $.post("../app/router/Router.php", pstUpdate, function(data) {
+                        // console.log(data);
+                    });
+                }
+                
             });         
             
         });

@@ -15,11 +15,7 @@
 
    <div class="main_block">
         <div class="sidebar">
-            <div>
-                <ul>
 
-                </ul>
-            </div>
         </div>
         <div class="table_container">
             <table class="table">

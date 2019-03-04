@@ -57,7 +57,7 @@ header {
   .student {
     margin: 10px 0 10px 20px;
 
-    .fa-pen {
+    .fas {
       display: none;
       padding-left: 10px;
       color: #fff;

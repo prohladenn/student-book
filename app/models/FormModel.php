@@ -33,7 +33,12 @@ Class FormModel {
         $result->execute();
     }
 
-    public function delete() {
+    public function delete($form) {
+        $id = $_POST['form'][0]['id'];
 
+        $result = $this->pdo->
+        prepare("DELETE FROM `{$form}` WHERE id = :id;");
+        $result->bindValue('id', $id);
+        $result->execute();
     }
 }

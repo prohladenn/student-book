@@ -15,14 +15,29 @@ class StudentsController {
         $student->create('student');
     }
 
-    public function readStudent() {
+    public function getMarkTable() {
         $student = new \App\Models\StudentModel;
-        $student->getMarks();
+        $student->getMarkTable();
+    }
+
+    public function setMarkTable() {
+        $student = new \App\Models\StudentModel;
+        $student->setMarkTable();
+    }
+
+    public function updateMarkTable() {
+        $student = new \App\Models\StudentModel;
+        $student->updateMarkTable();
     }
 
     public function updateStudent() {
         $student = new \App\Models\StudentModel;
         $student->update('student');
+    }
+
+    public function deleteStudent() {
+        $student = new \App\Models\StudentModel;
+        $student->delete('student');
     }
 
 }

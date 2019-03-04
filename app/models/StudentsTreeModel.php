@@ -5,8 +5,6 @@ namespace App\Models;
 class StudentsTreeModel {
     private $pdo;
     public function __construct() {
-        $names;
-        $result;
         $this->pdo = new \App\DB\DB;
 
         $result = $this->pdo->query(
