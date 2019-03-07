@@ -26,6 +26,9 @@ header {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+}
+
+header span {
   font-size: 2em;
 }
 
@@ -51,9 +54,14 @@ header {
   flex-direction: column;
 }
 
+.table_container .student_name {
+  font-size: 1.5em;
+  padding-top: 10px;
+}
+
 .table_container table {
   font-size: 1.2em;
-  padding: 20px;
+  padding: 10px;
 }
 
 .table_container table th {

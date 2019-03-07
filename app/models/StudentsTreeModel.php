@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+require_once __DIR__ . "/../db/DB.php";
+
 class StudentsTreeModel {
     private $pdo;
     public function __construct() {

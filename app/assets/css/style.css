@@ -17,7 +17,10 @@ header {
   position: relative;
   justify-content: center;
   align-items: center;
-  font-size: 2em;
+
+  span {
+    font-size: 2em;
+  }
 }
 .main_block {
   display: flex;
@@ -30,9 +33,14 @@ header {
   align-items: center;
   flex-direction: column;
 
+    .student_name {
+        font-size: 1.5em;
+        padding-top: 10px;
+    }
+
   table {
     font-size: 1.2em;
-    padding: 20px;
+    padding: 10px;
     th {
       border: 1px solid;
       padding: 10px 30px;

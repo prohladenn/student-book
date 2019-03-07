@@ -4,19 +4,19 @@ namespace App\Controllers;
 
 require_once __DIR__ . "/../models/StudentModel.php";
 
-class StudentsController {
-    public function createStudent() {
+class MarkTableController {
+    public function getMarkTable() {
         $student = new \App\Models\StudentModel;
-        $student->create('student');
+        $student->getMarkTable();
     }
 
-    public function updateStudent() {
+    public function setMarkTable() {
         $student = new \App\Models\StudentModel;
-        $student->update('student');
+        $student->setMarkTable();
     }
 
-    public function deleteStudent() {
+    public function updateMarkTable() {
         $student = new \App\Models\StudentModel;
-        $student->delete('student');
+        $student->updateMarkTable();
     }
 }
