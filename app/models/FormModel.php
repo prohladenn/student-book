@@ -15,6 +15,13 @@ Class FormModel {
         $name = $_POST['form'][0]['name'];
         $id = $_POST['form'][0]['id'];
 
+        if (!isset($id)) {
+            $result = $this->pdo->
+            prepare("INSERT INTO `{$form}` VALUES (NULL, :name);");
+            $result->bindValue('name', $name);
+            $result->execute();
+        }
+
         $result = $this->pdo->
             prepare("INSERT INTO `{$form}` VALUES (NULL, :id, :name);");
         $result->bindValue('id', $id);

@@ -62,17 +62,27 @@ header {
     padding: 20px 0 0 40px;
   }
 
-  .student {
+  .fas {
+    display: none;
+    padding-left: 10px;
+    color: #fff;
+  }
+
+  .student,
+  .group,
+  .course, 
+  .faculty {
     margin: 10px 0 10px 20px;
 
-    .fas {
-      display: none;
-      padding-left: 10px;
-      color: #fff;
+    & > .form {
+      &:hover > .fas {
+        display: inline;
+      }
     }
   }
 
-  ul, li {
+  ul, 
+  li {
     cursor: pointer;
     padding: 0;
   }
@@ -80,7 +90,14 @@ header {
   li > ul {
     display: none;
   }
-  p ~ ul > li, button {
+
+  button {
+    display: none;
     margin-left: 20px;
   }
+
+  ul:hover > .sidebar__add_form {
+    display: block;
+  }
+  /* Неверное поведение при хавере */
 }

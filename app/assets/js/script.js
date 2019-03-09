@@ -1,7 +1,7 @@
 function clickOnSidebar(el) {
     $(el).click(function() {
-        var next = $(this).next();
-        next.css('display') == 'none' ? next.css('display', 'inline') : next.css('display', 'none');
+        var ul = $(this).siblings('ul');
+        ul.css('display') == 'none' ? ul.css('display', 'inline') : ul.css('display', 'none');
     });
 };
 
@@ -11,25 +11,31 @@ function getStudentsTree(arr) {
 
     for (faculty in arr) {
         var faculty_name = $('<li>', {
-            html: '<p>' + faculty.split(',')[0] + '</p>', class: 'faculty', id: faculty.split(',')[1]
+            html: '<span class="form">' + '<span>' + faculty.split(',')[0] + '</span>' + '<i class="fas fa-pen"></i>' + '<i class="fas fa-trash-alt"></i>' + '</span>', 
+            class: 'faculty', 
+            id: faculty.split(',')[1]
         }).appendTo(ul);
         var faculty_ul = $('<ul>').appendTo(faculty_name);
 
         for (course in arr[faculty]) {
             var course_name = $('<li>', {
-                html: '<p>' + course.split(',')[0] + '</p>', class: 'course', id: course.split(',')[1]
+                html: '<span class="form">' + '<span>' + course.split(',')[0] + '</span>' + '<i class="fas fa-pen"></i>' + '<i class="fas fa-trash-alt"></i>' + '</span>', 
+                class: 'course', 
+                id: course.split(',')[1]
             }).appendTo(faculty_ul);
             var course_ul = $('<ul>').appendTo(course_name);
 
             for (group in arr[faculty][course]) {
                 var group_name = $('<li>', {
-                    html: '<p>' + group.split(',')[0] + '</p>', class: 'group', id: group.split(',')[1]
+                    html: '<span class="form">' + '<span>' + group.split(',')[0] + '</span>' + '<i class="fas fa-pen"></i>' + '<i class="fas fa-trash-alt"></i>' + '</span>', 
+                    class: 'group', 
+                    id: group.split(',')[1]
                 }).appendTo(course_ul);
                 var group_ul = $('<ul>').appendTo(group_name);
 
                 for (student in arr[faculty][course][group]) {
                     $('<li>', {
-                        html: '<span>' + arr[faculty][course][group][student].split(',')[0] + '</span>' + '<i class="fas fa-pen"></i>' + '<i class="fas fa-trash-alt"></i>', 
+                        html: '<span class="form">' + '<span>' + arr[faculty][course][group][student].split(',')[0] + '</span>' + '<i class="fas fa-pen"></i>' + '<i class="fas fa-trash-alt"></i>' + '</span>', 
                         class: 'student', 
                         id: arr[faculty][course][group][student].split(',')[1]
                     }).appendTo(group_ul);
@@ -37,6 +43,25 @@ function getStudentsTree(arr) {
             }
         }
     }
+}
+
+function getButtons() {
+    $('<button>', {
+        text: 'Добавить студента',
+        class: 'sidebar__add_form'
+    }).appendTo($('.student').parent());
+    $('<button>', {
+        text: 'Добавить группу',
+        class: 'sidebar__add_form'
+    }).appendTo($('.group').parent());
+    $('<button>', {
+        text: 'Добавить курс',
+        class: 'sidebar__add_form'
+    }).appendTo($('.course').parent());
+    $('<button>', {
+        text: 'Добавить факультет',
+        class: 'sidebar__add_form'
+    }).appendTo($('.faculty').parent());
 }
 
 $(function() {
@@ -48,46 +73,39 @@ $(function() {
 
             getStudentsTree(arr);
 
-            clickOnSidebar('.sidebar li > p');
+            clickOnSidebar('.sidebar li > span');
 
-            $('<button>', {
-                text: 'Добавить студента',
-                class: 'sidebar__add_student'
-            }).appendTo($('.student').parent());
-
-            $('.student').hover(function() {
-                $(this).children('.fas').css('display', 'inline');
-            }, function() {
-                $(this).children('.fas').css('display', 'none');
-            })
-
-    });
+            getButtons();
+        }
+    );
 
     //Create form
-    $(document).on('click', '.sidebar__add_student', function() {
-        $(this).before('<li class="student"><input /></li>');
+    $(document).on('click', '.sidebar__add_form', function() {
+        var formType = $(this).parent().children(':first').attr('class');
+        $(this).before("<li class="+ formType +"><input /></li>");
 
-        $(document).on('focusout', '.sidebar .student input', function() {
-            var name = $(this).val();
-            var id = $(this).parents('.group').attr('id');
+        $(document).on('focusout', '.sidebar input', function() {
+            var formName = $(this).val();
+            var formParentId = $(this).parent().parent().parent().attr('id');
         
-            $(this).closest('li').text(name);
+            $(this).closest('li').text(formName);
         
             var pst = {'form':[], 'router':[]};
             pst.form.push({
-                'name': name,
-                'id': id
+                'name': formName,
+                'id': formParentId,
+                'form_type': formType
             });
         
             pst.router.push({
-                'controller': 'StudentsController',
-                'action': 'createStudent'
+                'controller': 'FormController',
+                'action': 'createForm'
             });
 
             console.table(pst);
 
             $.post("../app/router/Router.php", pst, function(data) {
-                // console.log(data);
+                //TODO: Сделать автообновление сайдбара после отправления данных
             });
         });
     });
@@ -96,9 +114,10 @@ $(function() {
     $(document).on('click', '.fa-pen', function() {
         var text = $(this).siblings('span').text();
         var id = $(this).parent().attr('id');
-        $(this).parent().html('<li class="student" id="' + id +'"><input value="' + text + '" /></li>');
+        var formType = $(this).parent().attr('class');
+        $(this).parent().html('<li class='+ formType +' id=' + id +'><input value=' + text + ' /></li>');
 
-        $(document).on('focusout', '.sidebar .student input', function() {
+        $(document).on('focusout', '.sidebar input', function() {
             var name = $(this).val();
             var id = $(this).parent().attr('id');
         
@@ -107,12 +126,13 @@ $(function() {
             var pst = {'form':[], 'router':[]};
             pst.form.push({
                 'name': name,
-                'id': id
+                'id': id,
+                'form_type': formType
             });
         
             pst.router.push({
-                'controller': 'StudentsController',
-                'action': 'updateStudent'
+                'controller': 'FormController',
+                'action': 'updateForm'
             });
 
             console.table(pst);
@@ -126,17 +146,19 @@ $(function() {
     //Delete form
     $(document).on('click', '.fa-trash-alt', function() {
         var id = $(this).parent().attr('id');
+        var formType = $(this).parent().attr('class');
 
         $(this).parent().remove();
 
         var pst = {'form':[], 'router':[]};
         pst.form.push({
             'id': id,
+            'form_type': formType
         });
     
         pst.router.push({
-            'controller': 'StudentsController',
-            'action': 'deleteStudent'
+            'controller': 'FormController',
+            'action': 'deleteForm'
         });
 
         $.post("../app/router/Router.php", pst, function(data) {
@@ -275,10 +297,6 @@ $(function() {
             });
         }
         
-    });         
+    });
 
 });
-
-
-//TODO: Реализовать FormController! Для каждой сущности будет актуален один метод класса контроллера, один метод класса модели.
-//TODO: Необходимо реализовать передачу аякс запроса для каждой сущности. 

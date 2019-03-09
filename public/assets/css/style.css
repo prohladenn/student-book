@@ -78,6 +78,7 @@ header span {
   background-color: #ccc;
   height: 85vh;
   width: 25%;
+  /* Неверное поведение при хавере */
 }
 
 .sidebar > div {
@@ -88,14 +89,24 @@ header span {
   padding: 20px 0 0 40px;
 }
 
-.sidebar .student {
-  margin: 10px 0 10px 20px;
-}
-
-.sidebar .student .fas {
+.sidebar .fas {
   display: none;
   padding-left: 10px;
   color: #fff;
+}
+
+.sidebar .student,
+.sidebar .group,
+.sidebar .course,
+.sidebar .faculty {
+  margin: 10px 0 10px 20px;
+}
+
+.sidebar .student > .form:hover > .fas,
+.sidebar .group > .form:hover > .fas,
+.sidebar .course > .form:hover > .fas,
+.sidebar .faculty > .form:hover > .fas {
+  display: inline;
 }
 
 .sidebar ul,
@@ -108,7 +119,11 @@ header span {
   display: none;
 }
 
-.sidebar p ~ ul > li,
 .sidebar button {
+  display: none;
   margin-left: 20px;
+}
+
+.sidebar ul:hover > .sidebar__add_form {
+  display: block;
 }
