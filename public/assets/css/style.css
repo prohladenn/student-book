@@ -41,7 +41,7 @@ header span {
 }
 
 .table_container {
-  width: 75%;
+  width: 70%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -77,8 +77,8 @@ header span {
 .sidebar {
   background-color: #ccc;
   height: 85vh;
-  width: 25%;
-  /* Неверное поведение при хавере */
+  width: 30%;
+  overflow-y: scroll;
 }
 
 .sidebar > div {
@@ -86,7 +86,7 @@ header span {
   display: -ms-flexbox;
   display: flex;
   font-size: 1.2em;
-  padding: 20px 0 0 40px;
+  padding: 10px 0 0 10px;
 }
 
 .sidebar .fas {
@@ -95,11 +95,16 @@ header span {
   color: #fff;
 }
 
+.sidebar button {
+  display: none;
+  margin: 10px 0 0 20px;
+}
+
 .sidebar .student,
 .sidebar .group,
 .sidebar .course,
 .sidebar .faculty {
-  margin: 10px 0 10px 20px;
+  padding: 10px 0 0 20px;
 }
 
 .sidebar .student > .form:hover > .fas,
@@ -112,18 +117,10 @@ header span {
 .sidebar ul,
 .sidebar li {
   cursor: pointer;
-  padding: 0;
+  padding: 0 0 0 20px;
+  margin: 0;
 }
 
 .sidebar li > ul {
   display: none;
-}
-
-.sidebar button {
-  display: none;
-  margin-left: 20px;
-}
-
-.sidebar ul:hover > .sidebar__add_form {
-  display: block;
 }

@@ -27,7 +27,7 @@ header {
   flex-wrap: wrap;
 }
 .table_container {
-  width: 75%;
+  width: 70%;
 
   display: flex;
   align-items: center;
@@ -54,12 +54,13 @@ header {
 .sidebar {
   background-color: #ccc;
   height: 85vh;
-  width: 25%;
+  width: 30%;
+  overflow-y: scroll;
 
   & > div {
     display: flex;
     font-size: 1.2em;
-    padding: 20px 0 0 40px;
+    padding: 10px 0 0 10px;
   }
 
   .fas {
@@ -68,11 +69,16 @@ header {
     color: #fff;
   }
 
+  button {
+    display: none;
+    margin: 10px 0 0 20px;
+  }
+
   .student,
   .group,
   .course, 
   .faculty {
-    margin: 10px 0 10px 20px;
+    padding: 10px 0 0 20px;
 
     & > .form {
       &:hover > .fas {
@@ -84,20 +90,11 @@ header {
   ul, 
   li {
     cursor: pointer;
-    padding: 0;
+    padding: 0 0 0 20px;
+    margin: 0;
   }
 
   li > ul {
     display: none;
   }
-
-  button {
-    display: none;
-    margin-left: 20px;
-  }
-
-  ul:hover > .sidebar__add_form {
-    display: block;
-  }
-  /* Неверное поведение при хавере */
 }

@@ -2,7 +2,15 @@ function clickOnSidebar(el) {
     $(el).click(function() {
         var ul = $(this).siblings('ul');
         ul.css('display') == 'none' ? ul.css('display', 'inline') : ul.css('display', 'none');
+
+        $(this).parent('li').toggleClass('viewBtn');
+        ul.children('li').toggleClass('viewBtn');
+
+        setTimeout(function() {
+            $('.viewBtn').siblings('.sidebar__add_form').css('display', 'block');
+        }, 100);
     });
+
 };
 
 function getStudentsTree(arr) {
@@ -12,7 +20,7 @@ function getStudentsTree(arr) {
     for (faculty in arr) {
         var faculty_name = $('<li>', {
             html: '<span class="form">' + '<span>' + faculty.split(',')[0] + '</span>' + '<i class="fas fa-pen"></i>' + '<i class="fas fa-trash-alt"></i>' + '</span>', 
-            class: 'faculty', 
+            class: 'faculty viewBtn', 
             id: faculty.split(',')[1]
         }).appendTo(ul);
         var faculty_ul = $('<ul>').appendTo(faculty_name);
