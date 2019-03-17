@@ -107,7 +107,6 @@ function getButtons() {
 
         setTimeout(function() {
             if ($('.sidebar').find('button').length == 0) {
-                console.log('works');
                 $('<button>', {
                     text: '+',
                     class: 'sidebar__add_form'
@@ -120,7 +119,6 @@ function getButtons() {
 };
 
 $(function() {
-    //The first action
     $.post("../app/router/Router.php", 
         {'router':[{'controller': 'StudentsTreeController', 'action': 'getStudentsTree'}]}, 
         function(data) {
@@ -155,8 +153,6 @@ $(function() {
                 'action': 'createForm'
             });
 
-            console.table(pst);
-
             $.post("../app/router/Router.php", pst, function(data) {
 
             });
@@ -188,8 +184,6 @@ $(function() {
                 'action': 'updateForm'
             });
 
-            console.table(pst);
-
             $.post("../app/router/Router.php", pst, function(data) {
 
             });
@@ -213,8 +207,6 @@ $(function() {
             'controller': 'FormController',
             'action': 'deleteForm'
         });
-
-        console.log(pst);
 
         $.post("../app/router/Router.php", pst, function(data) {
 
@@ -352,12 +344,5 @@ $(function() {
 
             });
         }
-        
     });
-
 });
-
-
-/* TODO: 
- * Автообновление части страницы после аякс запроса
- */
