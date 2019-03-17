@@ -10,7 +10,7 @@
 </head>
 <body>
    <header>
-       <span>ИТМО</span>
+       <span>Университет</span>
    </header>
 
    <div class="main_block">

@@ -96,7 +96,10 @@ header span {
 }
 
 .sidebar button {
-  display: none;
+  margin: 10px 0 0 10px;
+}
+
+.sidebar .faculty ~ button {
   margin: 10px 0 0 20px;
 }
 

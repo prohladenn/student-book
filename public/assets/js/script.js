@@ -1,26 +1,22 @@
 function clickOnSidebar(el) {
     $(el).click(function() {
-        var ul = $(this).siblings('ul');
-        ul.css('display') == 'none' ? ul.css('display', 'inline') : ul.css('display', 'none');
+        $('.faculty').find('ul').css('display', 'none');
 
-        $(this).parent('li').toggleClass('viewBtn');
-        ul.children('li').toggleClass('viewBtn');
-
-        setTimeout(function() {
-            $('.viewBtn').siblings('.sidebar__add_form').css('display', 'block');
-        }, 100);
+        $(this).closest('.group').children('ul').css('display', 'inline');
+        $(this).closest('.course').children('ul').css('display', 'inline');
+        $(this).closest('.faculty').children('ul').css('display', 'inline');
     });
-
 };
 
 function getStudentsTree(arr) {
+    $('.sidebar').html('');
     var ul = $('<ul>').appendTo('.sidebar');
     ul.wrap('<div></div>');
 
     for (faculty in arr) {
         var faculty_name = $('<li>', {
             html: '<span class="form">' + '<span>' + faculty.split(',')[0] + '</span>' + '<i class="fas fa-pen"></i>' + '<i class="fas fa-trash-alt"></i>' + '</span>', 
-            class: 'faculty viewBtn', 
+            class: 'faculty', 
             id: faculty.split(',')[1]
         }).appendTo(ul);
         var faculty_ul = $('<ul>').appendTo(faculty_name);
@@ -51,26 +47,77 @@ function getStudentsTree(arr) {
             }
         }
     }
-}
-
-function getButtons() {
     $('<button>', {
-        text: 'Добавить студента',
-        class: 'sidebar__add_form'
-    }).appendTo($('.student').parent());
-    $('<button>', {
-        text: 'Добавить группу',
-        class: 'sidebar__add_form'
-    }).appendTo($('.group').parent());
-    $('<button>', {
-        text: 'Добавить курс',
-        class: 'sidebar__add_form'
-    }).appendTo($('.course').parent());
-    $('<button>', {
-        text: 'Добавить факультет',
+        text: '+',
         class: 'sidebar__add_form'
     }).appendTo($('.faculty').parent());
-}
+};
+
+function getButtons() {
+    $(document).on('click', '.sidebar', function(e) {
+
+        switch ($(e.target).parent().parent().attr('class')) {
+            case 'group':
+                $('.sidebar').find('button').remove();
+
+                if ($(e.target).closest('.group').children('ul').css('display') == 'none') {
+                    $('<button>', {
+                        text: '+',
+                        class: 'sidebar__add_form'
+                    }).appendTo($(e.target).closest('.course'));
+                    return;
+                };
+
+                $('<button>', {
+                    text: '+',
+                    class: 'sidebar__add_form'
+                }).appendTo($(e.target).closest('.group'));
+                break;
+
+            case 'course':
+                $('.sidebar').find('button').remove();
+
+                if ($(e.target).closest('.course').children('ul').css('display') == 'none') {
+                    $('<button>', {
+                        text: '+',
+                        class: 'sidebar__add_form'
+                    }).appendTo($(e.target).closest('.faculty'));
+                    return;
+                };
+
+                $('<button>', {
+                    text: '+',
+                    class: 'sidebar__add_form'
+                }).appendTo($(e.target).closest('.course'));
+                break;
+
+            case 'faculty':
+                $('.sidebar').find('button').remove();
+
+                if ($(e.target).closest('.faculty').children('ul').css('display') == 'none') {
+                    return;
+                };
+
+                $('<button>', {
+                    text: '+',
+                    class: 'sidebar__add_form'
+                }).appendTo($(e.target).closest('.faculty'));
+                break;
+        }
+
+        setTimeout(function() {
+            if ($('.sidebar').find('button').length == 0) {
+                console.log('works');
+                $('<button>', {
+                    text: '+',
+                    class: 'sidebar__add_form'
+                }).appendTo($('.faculty').parent());
+            } else {
+                $('.faculty').siblings('button').remove();
+            }
+        }, 320);
+    });
+};
 
 $(function() {
     //The first action
@@ -80,9 +127,7 @@ $(function() {
             var arr = JSON.parse(data);
 
             getStudentsTree(arr);
-
             clickOnSidebar('.sidebar li > span');
-
             getButtons();
         }
     );
@@ -113,7 +158,7 @@ $(function() {
             console.table(pst);
 
             $.post("../app/router/Router.php", pst, function(data) {
-                //TODO: Сделать автообновление сайдбара после отправления данных
+
             });
         });
     });
@@ -121,8 +166,8 @@ $(function() {
     //Udpate form
     $(document).on('click', '.fa-pen', function() {
         var text = $(this).siblings('span').text();
-        var id = $(this).parent().attr('id');
-        var formType = $(this).parent().attr('class');
+        var id = $(this).parent().parent().attr('id');
+        var formType = $(this).parent().parent().attr('class');
         $(this).parent().html('<li class='+ formType +' id=' + id +'><input value=' + text + ' /></li>');
 
         $(document).on('focusout', '.sidebar input', function() {
@@ -146,15 +191,15 @@ $(function() {
             console.table(pst);
 
             $.post("../app/router/Router.php", pst, function(data) {
-                // console.log(data);
+
             });
         });
     });
 
     //Delete form
     $(document).on('click', '.fa-trash-alt', function() {
-        var id = $(this).parent().attr('id');
-        var formType = $(this).parent().attr('class');
+        var id = $(this).parent().parent().attr('id');
+        var formType = $(this).parent().parent().attr('class');
 
         $(this).parent().remove();
 
@@ -169,15 +214,15 @@ $(function() {
             'action': 'deleteForm'
         });
 
+        console.log(pst);
+
         $.post("../app/router/Router.php", pst, function(data) {
-            //console.table(arr);
+
         });
     });
 
     //Get mark table
     $(document).on('click', '.student > span', function() {
-        $('.student_name').remove();
-        $('.table').before("<span class='student_name'>"+ $(this).text() +"</span>");
         if ($('.table__new_row').length) {
             if (confirm('Удалить все изменения?')) {
                 $('.table tr ~ tr').remove();
@@ -193,6 +238,9 @@ $(function() {
                 return;
             }
         }
+
+        $('.student_name').remove();
+        $('.table').before("<span class='student_name'>"+ $(this).text() +"</span>");
 
         $('.table tr ~ tr').remove();
 
@@ -276,7 +324,7 @@ $(function() {
             });
 
             $.post("../app/router/Router.php", pstSet, function(data) {
-                // console.log(data);
+
             });
         } 
         if ($('.table__update_row').length) {
@@ -301,10 +349,15 @@ $(function() {
             });
 
             $.post("../app/router/Router.php", pstUpdate, function(data) {
-                // console.log(data);
+
             });
         }
         
     });
 
 });
+
+
+/* TODO: 
+ * Автообновление части страницы после аякс запроса
+ */

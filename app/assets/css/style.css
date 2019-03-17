@@ -70,7 +70,10 @@ header {
   }
 
   button {
-    display: none;
+    margin: 10px 0 0 10px;
+  }
+
+  .faculty ~ button {
     margin: 10px 0 0 20px;
   }
 
