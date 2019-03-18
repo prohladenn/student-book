@@ -132,12 +132,12 @@ $(function() {
 
     //Create form
     $(document).on('click', '.sidebar__add_form', function() {
-        var formType = $(this).parent().children(':first').attr('class');
+        var formType = $(this).siblings('ul').children(':first').attr('class');
         $(this).before("<li class="+ formType +"><input /></li>");
 
         $(document).on('focusout', '.sidebar input', function() {
             var formName = $(this).val();
-            var formParentId = $(this).parent().parent().parent().attr('id');
+            var formParentId = $(this).parent().parent().attr('id');
         
             $(this).closest('li').text(formName);
         
@@ -152,6 +152,8 @@ $(function() {
                 'controller': 'FormController',
                 'action': 'createForm'
             });
+
+            console.log(pst);
 
             $.post("../app/router/Router.php", pst, function(data) {
 

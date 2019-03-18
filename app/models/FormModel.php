@@ -20,13 +20,15 @@ Class FormModel {
             prepare("INSERT INTO `{$form}` VALUES (NULL, :name);");
             $result->bindValue('name', $name);
             $result->execute();
-        } else {
-            $result = $this->pdo->
-            prepare("INSERT INTO `{$form}` VALUES (NULL, :id, :name);");
-            $result->bindValue('id', $id);
-            $result->bindValue('name', $name);
-            $result->execute();
-        }
+
+            return;
+        } 
+
+        $result = $this->pdo->
+        prepare("INSERT INTO `{$form}` VALUES (NULL, :id, :name);");
+        $result->bindValue('id', $id);
+        $result->bindValue('name', $name);
+        $result->execute();
 
     }
 
