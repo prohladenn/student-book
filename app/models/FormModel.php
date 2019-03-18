@@ -20,7 +20,6 @@ Class FormModel {
             prepare("INSERT INTO `{$form}` VALUES (NULL, :name);");
             $result->bindValue('name', $name);
             $result->execute();
-
             return;
         } 
 
@@ -29,7 +28,6 @@ Class FormModel {
         $result->bindValue('id', $id);
         $result->bindValue('name', $name);
         $result->execute();
-
     }
 
     public function update($form) {

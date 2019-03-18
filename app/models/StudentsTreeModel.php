@@ -22,7 +22,8 @@ class StudentsTreeModel {
         )->fetchAll();
 
         foreach ($result as $row) {
-            $names[$row[1] . ',' . $row[0]][$row[3] . ',' . $row[2]][$row[5] . ',' . $row[4]][] = $row[7] . ',' . $row[6];
+            $names[$row[1] . ',' . $row[0]][$row[3] . ',' 
+            . $row[2]][$row[5] . ',' . $row[4]][] = $row[7] . ',' . $row[6];
         }
 
         echo json_encode($names);
